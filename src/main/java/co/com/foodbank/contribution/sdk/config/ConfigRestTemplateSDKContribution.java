@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
  *         15/06/2021
  */
 @Configuration
-public class ConfigRestTemplate {
+public class ConfigRestTemplateSDKContribution {
 
     @Bean
     public RestTemplate restTemplate() {

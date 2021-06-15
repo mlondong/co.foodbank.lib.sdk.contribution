@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 @Configuration
-public class ConfigHttpHeaders {
+public class ConfigHttpHeadersSDKContribution {
 
     @Bean
     public HttpHeaders done() {
