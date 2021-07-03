@@ -14,12 +14,15 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import co.com.foodbank.contribution.dto.DetailContributionDTO;
 import co.com.foodbank.contribution.dto.GeneralContributionDTO;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceIllegalArgumentException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceNotAvailableException;
+import co.com.foodbank.contribution.sdk.model.ResponseContributionData;
 
 /**
  * @author mauricio.londono@gmail.com co.com.foodbank.contribution.sdk.service
@@ -32,6 +35,9 @@ public class SDKContributionService implements ISDKContribution {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @Autowired
@@ -51,7 +57,7 @@ public class SDKContributionService implements ISDKContribution {
      * Method to create a GeneralContribution through resttemplate
      */
     @Override
-    public String create(GeneralContributionDTO dto)
+    public ResponseContributionData create(GeneralContributionDTO dto)
             throws JsonMappingException, JsonProcessingException,
             SDKContributionServiceException,
             SDKContributionServiceNotAvailableException,
@@ -63,8 +69,15 @@ public class SDKContributionService implements ISDKContribution {
             HttpEntity<GeneralContributionDTO> entity =
                     new HttpEntity<GeneralContributionDTO>(dto, httpHeaders);
 
-            return restTemplate.exchange(urlSdlGeneralContribution,
-                    HttpMethod.POST, entity, String.class).getBody();
+            String response =
+                    restTemplate
+                            .exchange(urlSdlGeneralContribution,
+                                    HttpMethod.POST, entity, String.class)
+                            .getBody();
+
+            return objectMapper.readValue(response,
+                    new TypeReference<ResponseContributionData>() {});
+
 
         } catch (ResourceAccessException e) {
             throw new SDKContributionServiceNotAvailableException(e);
@@ -85,8 +98,9 @@ public class SDKContributionService implements ISDKContribution {
      * Method to create a GeneralContribution through resttemplate
      */
     @Override
-    public String create(DetailContributionDTO dto) throws JsonMappingException,
-            JsonProcessingException, SDKContributionServiceException,
+    public ResponseContributionData create(DetailContributionDTO dto)
+            throws JsonMappingException, JsonProcessingException,
+            SDKContributionServiceException,
             SDKContributionServiceNotAvailableException,
             SDKContributionServiceIllegalArgumentException {
 
@@ -96,8 +110,11 @@ public class SDKContributionService implements ISDKContribution {
             HttpEntity<DetailContributionDTO> entity =
                     new HttpEntity<DetailContributionDTO>(dto, httpHeaders);
 
-            return restTemplate.exchange(urlSdlDetailContribution,
+            String response = restTemplate.exchange(urlSdlDetailContribution,
                     HttpMethod.POST, entity, String.class).getBody();
+
+            return objectMapper.readValue(response,
+                    new TypeReference<ResponseContributionData>() {});
 
         } catch (ResourceAccessException e) {
             throw new SDKContributionServiceNotAvailableException(e);

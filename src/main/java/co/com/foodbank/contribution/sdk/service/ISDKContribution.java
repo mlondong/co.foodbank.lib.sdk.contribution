@@ -7,6 +7,7 @@ import co.com.foodbank.contribution.dto.GeneralContributionDTO;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceIllegalArgumentException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceNotAvailableException;
+import co.com.foodbank.contribution.sdk.model.ResponseContributionData;
 
 /**
  * @author mauricio.londono@gmail.com co.com.foodbank.contribution.sdk.service
@@ -19,15 +20,16 @@ public interface ISDKContribution {
      * Method to create DetailContribution.
      * 
      * @param dto
-     * @return {@code String}
+     * @return {@code ResponseContributionData}
      * @throws JsonMappingException
      * @throws JsonProcessingException
      * @throws SDKContributionServiceException
      * @throws SDKContributionServiceNotAvailableException
      * @throws SDKContributionServiceIllegalArgumentException
      */
-    String create(GeneralContributionDTO dto) throws JsonMappingException,
-            JsonProcessingException, SDKContributionServiceException,
+    ResponseContributionData create(GeneralContributionDTO dto)
+            throws JsonMappingException, JsonProcessingException,
+            SDKContributionServiceException,
             SDKContributionServiceNotAvailableException,
             SDKContributionServiceIllegalArgumentException;
 
@@ -36,15 +38,16 @@ public interface ISDKContribution {
      * Method to create DetailContribution.
      * 
      * @param dto
-     * @return {@code String}
+     * @return {@code ResponseContributionData}
      * @throws JsonMappingException
      * @throws JsonProcessingException
      * @throws SDKContributionServiceException
      * @throws SDKContributionServiceNotAvailableException
      * @throws SDKContributionServiceIllegalArgumentException
      */
-    String create(DetailContributionDTO dto) throws JsonMappingException,
-            JsonProcessingException, SDKContributionServiceException,
+    ResponseContributionData create(DetailContributionDTO dto)
+            throws JsonMappingException, JsonProcessingException,
+            SDKContributionServiceException,
             SDKContributionServiceNotAvailableException,
             SDKContributionServiceIllegalArgumentException;
 
