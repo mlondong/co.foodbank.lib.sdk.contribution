@@ -52,6 +52,10 @@ public class SDKContributionService implements ISDKContribution {
     private String urlSdlDetailContribution;
 
 
+    @Value("${urlSdlFindContribution}")
+    private String urlSdlFindContribution;
+
+
 
     /**
      * Method to create a GeneralContribution through resttemplate
@@ -129,5 +133,27 @@ public class SDKContributionService implements ISDKContribution {
 
 
     }
+
+
+
+    @Override
+    public ResponseContributionData findContributionById(String id)
+            throws JsonMappingException, JsonProcessingException,
+            SDKContributionServiceException,
+            SDKContributionServiceNotAvailableException,
+            SDKContributionServiceIllegalArgumentException {
+
+        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<String>(httpHeaders);
+
+        String response = restTemplate.exchange(urlSdlFindContribution + id,
+                HttpMethod.GET, entity, String.class).getBody();
+
+
+        return objectMapper.readValue(response,
+                new TypeReference<ResponseContributionData>() {});
+    }
+
+
 
 }

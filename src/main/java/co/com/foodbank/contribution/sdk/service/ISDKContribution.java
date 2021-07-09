@@ -52,4 +52,21 @@ public interface ISDKContribution {
             SDKContributionServiceIllegalArgumentException;
 
 
+
+    /**
+     * Method to find Contribution.
+     * 
+     * @param id
+     * @return {@code ResponseContributionData}
+     * @throws JsonMappingException
+     * @throws JsonProcessingException
+     * @throws SDKContributionServiceException
+     * @throws SDKContributionServiceNotAvailableException
+     * @throws SDKContributionServiceIllegalArgumentException
+     */
+    ResponseContributionData findContributionById(String id)
+            throws JsonMappingException, JsonProcessingException,
+            SDKContributionServiceException,
+            SDKContributionServiceNotAvailableException,
+            SDKContributionServiceIllegalArgumentException;
 }
