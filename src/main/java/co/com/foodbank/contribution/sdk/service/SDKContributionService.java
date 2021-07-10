@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import co.com.foodbank.contribution.dto.DetailContributionDTO;
 import co.com.foodbank.contribution.dto.GeneralContributionDTO;
+import co.com.foodbank.contribution.sdk.exception.SDKContributionNotFoundException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceIllegalArgumentException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceNotAvailableException;
@@ -50,6 +51,10 @@ public class SDKContributionService implements ISDKContribution {
 
     @Value("${urlSdlDetailContribution}")
     private String urlSdlDetailContribution;
+
+
+    @Value("${urlSdlFindContribution}")
+    private String urlSdlFindContribution;
 
 
 
@@ -129,5 +134,55 @@ public class SDKContributionService implements ISDKContribution {
 
 
     }
+
+
+
+    /**
+     * Method to find a contribution.
+     */
+    @Override
+    public ResponseContributionData findContributionById(String id)
+            throws JsonMappingException, JsonProcessingException,
+            SDKContributionServiceException,
+            SDKContributionServiceNotAvailableException,
+            SDKContributionServiceIllegalArgumentException,
+            SDKContributionNotFoundException {
+
+
+        try {
+            httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+            HttpEntity<String> entity = new HttpEntity<String>(httpHeaders);
+
+            String response =
+                    restTemplate
+                            .exchange(urlSdlFindContribution + id,
+                                    HttpMethod.GET, entity, String.class)
+                            .getBody();
+
+            return objectMapper.readValue(response,
+                    new TypeReference<ResponseContributionData>() {});
+
+
+
+        } catch (HttpClientErrorException i) {
+
+            if (i.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                throw new SDKContributionServiceIllegalArgumentException(i);
+            }
+            if (i.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new SDKContributionNotFoundException(id,
+                        i.getResponseBodyAsString());
+            }
+            throw new SDKContributionServiceException(i);
+        } catch (ResourceAccessException i) {
+            throw new SDKContributionServiceNotAvailableException(i);
+        } catch (Exception i) {
+            throw new SDKContributionServiceException(i);
+        }
+
+
+    }
+
+
 
 }

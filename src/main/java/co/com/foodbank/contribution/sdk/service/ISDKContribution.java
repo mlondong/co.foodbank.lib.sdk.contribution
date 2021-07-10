@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import co.com.foodbank.contribution.dto.DetailContributionDTO;
 import co.com.foodbank.contribution.dto.GeneralContributionDTO;
+import co.com.foodbank.contribution.sdk.exception.SDKContributionNotFoundException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceIllegalArgumentException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceNotAvailableException;
@@ -52,4 +53,22 @@ public interface ISDKContribution {
             SDKContributionServiceIllegalArgumentException;
 
 
+
+    /**
+     * Method to find Contribution.
+     * 
+     * @param id
+     * @return {@code ResponseContributionData}
+     * @throws JsonMappingException
+     * @throws JsonProcessingException
+     * @throws SDKContributionServiceException
+     * @throws SDKContributionServiceNotAvailableException
+     * @throws SDKContributionServiceIllegalArgumentException
+     */
+    ResponseContributionData findContributionById(String id)
+            throws JsonMappingException, JsonProcessingException,
+            SDKContributionServiceException,
+            SDKContributionServiceNotAvailableException,
+            SDKContributionServiceIllegalArgumentException,
+            SDKContributionNotFoundException;
 }
