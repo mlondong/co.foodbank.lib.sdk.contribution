@@ -1,10 +1,8 @@
 package co.com.foodbank.contribution.sdk.model;
 
 import java.util.Date;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import co.com.foodbank.contribution.dto.IContribution;
-import co.com.foodbank.contribution.dto.IStateContribution;
-import co.com.foodbank.contribution.state.Pending;
+import co.com.foodbank.contribution.state.IStateContribution;
 import co.com.foodbank.vehicule.dto.VolumeDTO;
 
 
@@ -17,7 +15,7 @@ public class ResponseContributionData implements IContribution {
     private String id;
     private String description;
     private Date date;
-    @JsonDeserialize(as = Pending.class)
+
     private IStateContribution state;
 
     /* For General Contribution specifications */

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import co.com.foodbank.contribution.dto.DetailContributionDTO;
 import co.com.foodbank.contribution.dto.GeneralContributionDTO;
+import co.com.foodbank.contribution.sdk.exception.SDKContributionNotFoundException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceIllegalArgumentException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceNotAvailableException;
@@ -68,5 +69,6 @@ public interface ISDKContribution {
             throws JsonMappingException, JsonProcessingException,
             SDKContributionServiceException,
             SDKContributionServiceNotAvailableException,
-            SDKContributionServiceIllegalArgumentException;
+            SDKContributionServiceIllegalArgumentException,
+            SDKContributionNotFoundException;
 }
