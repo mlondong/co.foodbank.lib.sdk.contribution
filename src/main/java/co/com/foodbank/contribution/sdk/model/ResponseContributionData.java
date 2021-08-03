@@ -80,25 +80,21 @@ public class ResponseContributionData implements IContribution {
 
     @Override
     public String getDescription() {
-        // TODO Auto-generated method stub
         return description;
     }
 
     @Override
     public Date getDate() {
-        // TODO Auto-generated method stub
         return date;
     }
 
     @Override
     public IStateContribution getState() {
-        // TODO Auto-generated method stub
         return state;
     }
 
     @Override
     public String getId() {
-        // TODO Auto-generated method stub
         return id;
     }
 }
