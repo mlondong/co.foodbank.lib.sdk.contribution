@@ -1,7 +1,7 @@
 package co.com.foodbank.contribution.sdk.model;
 
 import java.util.Date;
-import co.com.foodbank.contribution.dto.IContribution;
+import co.com.foodbank.contribution.dto.interfaces.IContribution;
 import co.com.foodbank.contribution.state.IStateContribution;
 import co.com.foodbank.vehicule.dto.VolumeDTO;
 
