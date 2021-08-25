@@ -2,7 +2,6 @@ package co.com.foodbank.contribution.sdk.service;
 
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,6 +23,7 @@ import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceExceptio
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceIllegalArgumentException;
 import co.com.foodbank.contribution.sdk.exception.SDKContributionServiceNotAvailableException;
 import co.com.foodbank.contribution.sdk.model.ResponseContributionData;
+import co.com.foodbank.contribution.sdk.util.UrlContribution;
 
 /**
  * @author mauricio.londono@gmail.com co.com.foodbank.contribution.sdk.service
@@ -44,17 +44,8 @@ public class SDKContributionService implements ISDKContribution {
     @Autowired
     private HttpHeaders httpHeaders;
 
-
-    @Value("${urlSdlGeneralContribution}")
-    private String urlSdlGeneralContribution;
-
-
-    @Value("${urlSdlDetailContribution}")
-    private String urlSdlDetailContribution;
-
-
-    @Value("${urlSdlFindContribution}")
-    private String urlSdlFindContribution;
+    @Autowired
+    private UrlContribution urlContribution;
 
 
 
@@ -76,7 +67,7 @@ public class SDKContributionService implements ISDKContribution {
 
             String response =
                     restTemplate
-                            .exchange(urlSdlGeneralContribution,
+                            .exchange(urlContribution.toCreateGeneralContrib(),
                                     HttpMethod.POST, entity, String.class)
                             .getBody();
 
@@ -115,8 +106,11 @@ public class SDKContributionService implements ISDKContribution {
             HttpEntity<DetailContributionDTO> entity =
                     new HttpEntity<DetailContributionDTO>(dto, httpHeaders);
 
-            String response = restTemplate.exchange(urlSdlDetailContribution,
-                    HttpMethod.POST, entity, String.class).getBody();
+            String response =
+                    restTemplate
+                            .exchange(urlContribution.toCreateDetailContrib(),
+                                    HttpMethod.POST, entity, String.class)
+                            .getBody();
 
             return objectMapper.readValue(response,
                     new TypeReference<ResponseContributionData>() {});
@@ -155,7 +149,7 @@ public class SDKContributionService implements ISDKContribution {
 
             String response =
                     restTemplate
-                            .exchange(urlSdlFindContribution + id,
+                            .exchange(urlContribution.toFindContribById(id),
                                     HttpMethod.GET, entity, String.class)
                             .getBody();
 
